@@ -1,4 +1,4 @@
-package com.levjcpp.katappfinish;
+package ru.levjcpp.katappfinish;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
