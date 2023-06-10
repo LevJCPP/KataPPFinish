@@ -8,13 +8,23 @@
 
 <form th:method="post" th:action="@{/auth/register}" th:object="${user}">
     <label for="username">Username: </label>
+    <br/>
     <input type="text" th:field="*{username}" id="username">
     <div style="color:red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">
         Invalid username
     </div>
     <br/>
 
+    <label for="password">Password: </label>
+    <br/>
+    <input type="password" th:field="*{password}" id="password">
+    <div style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">
+        Invalid password
+    </div>
+    <br/>
+
     <label for="firstName">First Name: </label>
+    <br/>
     <input type="text" th:field="*{firstName}" id="firstName">
     <div style="color:red" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">
         Invalid first name
@@ -22,6 +32,7 @@
     <br/>
 
     <label for="lastName">Last Name: </label>
+    <br/>
     <input type="text" th:field="*{lastName}" id="lastName">
     <div style="color:red" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">
         Invalid last name
@@ -29,16 +40,10 @@
     <br/>
 
     <label for="yearOfBirth">Year of Birth: </label>
+    <br/>
     <input type="number" th:field="*{yearOfBirth}" id="yearOfBirth">
     <div style="color:red" th:if="${#fields.hasErrors('yearOfBirth')}" th:errors="*{yearOfBirth}">
         Invalid year of birth
-    </div>
-    <br/>
-
-    <label for="password">Password: </label>
-    <input type="text" th:field="*{password}" id="password">
-    <div style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">
-        Invalid password
     </div>
     <br/>
 

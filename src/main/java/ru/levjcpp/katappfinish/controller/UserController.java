@@ -1,12 +1,12 @@
 package ru.levjcpp.katappfinish.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.levjcpp.katappfinish.model.User;
-import ru.levjcpp.katappfinish.service.UserServiceImpl;
 
 import java.security.Principal;
 
@@ -14,10 +14,10 @@ import java.security.Principal;
 @RequestMapping("/user")
 public class UserController {
 
-    private final UserServiceImpl userDetailsService;
+    private final UserDetailsService userDetailsService;
 
     @Autowired
-    public UserController(UserServiceImpl userDetailsService) {
+    public UserController(UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
 

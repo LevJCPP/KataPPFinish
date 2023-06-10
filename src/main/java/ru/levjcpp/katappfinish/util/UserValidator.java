@@ -31,8 +31,20 @@ public class UserValidator implements Validator {
             return;
         }
 
+        if (user.getPassword().isEmpty()) {
+            errors.rejectValue("password", "", "Required field");
+        }
+
+        validateUpdate(user, errors);
+    }
+
+    public void validateUpdate(User user, Errors errors) {
         if (user.getUsername().isEmpty()) {
             errors.rejectValue("username", "", "Required field");
+        }
+
+        if (!user.getPassword().isEmpty() && (user.getPassword().length() < 4)) {
+            errors.rejectValue("password", "", "Password must be at least 4 characters long");
         }
 
         if (user.getFirstName().isEmpty()) {
@@ -47,8 +59,8 @@ public class UserValidator implements Validator {
             errors.rejectValue("yearOfBirth", "", "Invalid year of birth");
         }
 
-        if (user.getPassword().length() < 4) {
-            errors.rejectValue("password", "", "Password must be at least 4 characters long");
+        if (user.getRoles().isEmpty()) {
+            errors.rejectValue("roles", "", "Required field");
         }
     }
 }

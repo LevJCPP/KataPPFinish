@@ -1,40 +1,15 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Users</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title th:text="${user.username}"></title>
 </head>
 <body>
 <div>
-  <table border="3">
-    <tr>
-      <th>Username</th>
-      <th>First Name</th>
-      <th>Last Name</th>
-      <th>Birth Year</th>
-      <th>Roles</th>
-      <th></th>
-      <th></th>
-    </tr>
+  <form th:method="PATCH" th:action="@{/admin/users/edit}" th:object="${user}">
+    <input type="hidden" th:field="*{id}" th:value="*{id}"/>
+    <br/>
 
-    <tr th:each="u : ${users}">
-      <td th:utext="${u.username}">username</td>
-      <td th:utext="${u.firstName}">firstName</td>
-      <td th:utext="${u.lastName}">lastName</td>
-      <td th:utext="${u.yearOfBirth}">yearOfBirth</td>
-      <td th:utext="${u.rolesString}">roles</td>
-
-      <td><a th:href="@{/admin/users/edit/{id}(id=${u.id})}">Edit</a></td>
-      <td>
-        <form th:method="DELETE" th:action="@{/admin/users/delete/{id}(id=${u.id})}">
-          <input type="submit" value="Delete"/>
-        </form>
-      </td>
-    </tr>
-  </table>
-
-  <br/>
-  <form th:method="POST" th:action="@{/admin/users/add_user}" th:object="${user}">
     <label for="username"> Enter new username: </label>
     <br/>
     <input type="text" th:field="*{username}" id="username"/>
@@ -88,11 +63,8 @@
     </div>
     <br/>
 
-    <input type="submit" value="Add user">
-    <br/>
+    <input type="submit" value="Submit">
   </form>
-
-  <a href="/logout">Logout</a>
 </div>
 </body>
 </html>
