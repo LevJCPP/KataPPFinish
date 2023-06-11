@@ -31,7 +31,7 @@ public class User implements UserDetails {
     private String lastName;
 
     @Column(name = "year_birth")
-    private int yearOfBirth;
+    private Integer yearOfBirth;
 
     @ManyToMany(cascade = {CascadeType.MERGE})
     @Fetch(FetchMode.JOIN)
@@ -83,16 +83,16 @@ public class User implements UserDetails {
         this.lastName = lastName;
     }
 
-    public int getYearOfBirth() {
+    public Integer getYearOfBirth() {
         return yearOfBirth;
     }
 
-    public void setYearOfBirth(int yearOfBirth) {
+    public void setYearOfBirth(Integer yearOfBirth) {
         this.yearOfBirth = yearOfBirth;
     }
 
     public String getRolesString() {
-        return roles.stream().map(Role::getName).collect(Collectors.joining(", "));
+        return roles.stream().map(Role::toString).collect(Collectors.joining(", "));
     }
 
     public Collection<Role> getRoles() {

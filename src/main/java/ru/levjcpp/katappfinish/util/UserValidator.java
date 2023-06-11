@@ -26,7 +26,7 @@ public class UserValidator implements Validator {
     public void validate(Object target, Errors errors) {
         User user = (User) target;
 
-        if (!userDetailsService.findUserByUsername(user.getUsername()).isEmpty()) {
+        if (userDetailsService.findUserByUsername(user.getUsername()).isPresent()) {
             errors.rejectValue("username", "", "User with such username already exists");
             return;
         }
@@ -55,11 +55,11 @@ public class UserValidator implements Validator {
             errors.rejectValue("lastName", "", "Required field");
         }
 
-        if ((user.getYearOfBirth() < 1923) || (user.getYearOfBirth() > 2005)) {
+        if ((user.getYearOfBirth() == null) || ((user.getYearOfBirth() < 1923) || (user.getYearOfBirth() > 2005))) {
             errors.rejectValue("yearOfBirth", "", "Invalid year of birth");
         }
 
-        if (user.getRoles().isEmpty()) {
+        if ((user.getRoles() == null) || (user.getRoles().isEmpty())) {
             errors.rejectValue("roles", "", "Required field");
         }
     }

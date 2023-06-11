@@ -5,8 +5,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.levjcpp.katappfinish.model.User;
+import ru.levjcpp.katappfinish.service.RoleService;
+import ru.levjcpp.katappfinish.service.UserService;
 
 import java.security.Principal;
 
@@ -14,17 +17,23 @@ import java.security.Principal;
 @RequestMapping("/user")
 public class UserController {
 
-    private final UserDetailsService userDetailsService;
+    private final UserService userService;
+    private final RoleService roleService;
 
     @Autowired
-    public UserController(UserDetailsService userDetailsService) {
-        this.userDetailsService = userDetailsService;
+    public UserController(UserService userService, RoleService roleService) {
+        this.userService = userService;
+        this.roleService = roleService;
+    }
+
+    @ModelAttribute
+    public void modelAttributes(Model model, Principal authUser) {
+        model.addAttribute("roles", roleService.findAll());
+        model.addAttribute("authUser", userService.findUserByUsername(authUser.getName()).orElse(null));
     }
 
     @GetMapping
-    public String getUser(Principal principal, Model model) {
-        User user = (User) userDetailsService.loadUserByUsername(principal.getName());
-        model.addAttribute("user", user);
+    public String getUser() {
         return "user";
     }
 }

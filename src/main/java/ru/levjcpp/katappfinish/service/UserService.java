@@ -1,6 +1,5 @@
 package ru.levjcpp.katappfinish.service;
 
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import ru.levjcpp.katappfinish.model.User;
 
@@ -13,5 +12,5 @@ public interface UserService extends UserDetailsService {
     void deleteUserById(Long id);
     User findById(Long id);
     Collection<User> findAll();
-    Optional<? extends UserDetails> findUserByUsername(String username);
+    Optional<User> findUserByUsername(String username);
 }

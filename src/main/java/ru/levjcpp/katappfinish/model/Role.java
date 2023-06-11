@@ -52,4 +52,9 @@ public class Role implements GrantedAuthority {
     public String getAuthority() {
         return "ROLE_" + name.toUpperCase();
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

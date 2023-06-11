@@ -10,6 +10,8 @@ import ru.levjcpp.katappfinish.service.RoleService;
 import ru.levjcpp.katappfinish.service.UserService;
 import ru.levjcpp.katappfinish.util.UserValidator;
 
+import java.security.Principal;
+
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
@@ -25,52 +27,50 @@ public class AdminController {
         this.userValidator = userValidator;
     }
 
-    @GetMapping("/users/all")
-    public String getAllUsers(Model model) {
+    @ModelAttribute
+    public void modelAttributes(Model model, Principal authUser) {
         model.addAttribute("users", userService.findAll());
         model.addAttribute("roles", roleService.findAll());
         model.addAttribute("user", new User());
-        return "all-users";
+        model.addAttribute("editUser", new User());
+        model.addAttribute("authUser", userService.findUserByUsername(authUser.getName()).orElse(null));
     }
 
-    @GetMapping("/users/edit/{id}")
-    public String getUserEdit(Model model, @PathVariable Long id) {
-        model.addAttribute("user", userService.findById(id));
-        model.addAttribute("roles", roleService.findAll());
-        return "user-edit";
+    @GetMapping
+    public String getAdmin() {
+        return "admin";
     }
 
-    @PatchMapping("/users/edit")
-    public String submitEditUser(Model model, @ModelAttribute User user, BindingResult bindingResult) {
-        userValidator.validateUpdate(user, bindingResult);
+    @PatchMapping("/{id}")
+    public String editUser(@ModelAttribute User editUser, BindingResult bindingResult) {
+        userValidator.validateUpdate(editUser, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("roles", roleService.findAll());
-            return "user-edit";
+            return "admin";
         }
 
-        userService.save(user);
-        return "redirect:/admin/users/all";
+        userService.save(editUser);
+        return "redirect:/admin";
     }
 
-    @PostMapping("users/add_user")
-    public String addUser(Model model, @ModelAttribute User user, BindingResult bindingResult) {
+    @PostMapping("/")
+    public String newUser(Model model, @ModelAttribute User user, BindingResult bindingResult) {
         userValidator.validate(user, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("users", userService.findAll());
-            model.addAttribute("roles", roleService.findAll());
-            model.addAttribute("user", user);
-            return "all-users";
+            model.addAttribute("newUser", user);
+            System.out.println(bindingResult.getAllErrors());
+            return "admin";
         }
 
         userService.save(user);
-        return "redirect:/admin/users/all";
+        model.addAttribute("users", userService.findAll());
+        return "redirect:/admin";
     }
 
-    @DeleteMapping("/users/delete/{id}")
+    @DeleteMapping("/{id}")
     public String deleteUser(@PathVariable Long id) {
         userService.deleteUserById(id);
-        return "redirect:/admin/users/all";
+        return "redirect:/admin";
     }
 }
