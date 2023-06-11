@@ -3,6 +3,7 @@ package ru.levjcpp.katappfinish.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -32,6 +33,12 @@ public class AuthController {
         this.userValidator = userValidator;
     }
 
+    @ModelAttribute
+    public void modelAttributes(Model model) {
+        model.addAttribute("roles", roleService.findAll());
+        model.addAttribute("user", new User());
+    }
+
     @GetMapping("/login")
     public String loginPage() {
         return "auth/login";
@@ -43,7 +50,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String registerUser(@ModelAttribute("user") User user, BindingResult bindingResult) {
+    public String registerUser(Model model, @ModelAttribute User user, BindingResult bindingResult) {
         // Временный костыль, чтобы вручную в бд не добавлять и не менять роли
         String roleName;
         if (user.getUsername().equals("admin")) {
@@ -56,6 +63,7 @@ public class AuthController {
         userValidator.validate(user, bindingResult);
 
         if (bindingResult.hasErrors()) {
+            model.addAttribute("user", user);
             return "/auth/register";
         }
 

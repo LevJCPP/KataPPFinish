@@ -105,43 +105,43 @@
                               <form th:method="PATCH" th:action="@{/admin/{id}(id=${u.id})}" th:object="${editUser}">
                                 <div class="modal-body col-md text-center align-self-center">
 
-                                  <div class="form-group">
+                                  <div>
                                     <label for="id" class="fw-bold">ID</label>
                                     <input class="form-control" type="text" th:value="${u.id}" id="id" disabled/>
                                     <br/>
                                   </div>
 
-                                  <div class="form-group">
+                                  <div>
                                     <label for="firstName" class="fw-bold">First name</label>
                                     <input class="form-control" type="text" name="firstName" th:value="${u.firstName}" id="firstName"/>
                                     <br/>
                                   </div>
 
-                                  <div class="form-group">
+                                  <div>
                                     <label for="lastName" class="fw-bold">Last name</label>
                                     <input class="form-control" type="text" name="lastName" th:value="${u.lastName}" id="lastName"/>
                                     <br/>
                                   </div>
 
-                                  <div class="form-group">
+                                  <div>
                                     <label for="yearOfBirth" class="fw-bold">Year of Birth</label>
                                     <input class="form-control" type="number" name="yearOfBirth" th:value="${u.yearOfBirth}" id="yearOfBirth"/>
                                     <br/>
                                   </div>
 
-                                  <div class="form-group">
+                                  <div>
                                     <label for="username" class="fw-bold">Username</label>
                                     <input class="form-control" type="text" name="username" th:value="${u.username}" id="username"/>
                                     <br/>
                                   </div>
 
-                                  <div class="form-group">
+                                  <div>
                                     <label for="password" class="fw-bold">Password</label>
                                     <input class="form-control" type="password" th:field="*{password}" id="password"/>
                                     <br/>
                                   </div>
 
-                                  <div class="form-group">
+                                  <div>
                                     <label for="roles" class="fw-bold">Roles</label>
                                     <select class="form-control mw-100" id="roles" style="width: 250px; height: 65px"
                                             name="roles" th:value="${u.roles}" multiple="multiple">
@@ -151,8 +151,8 @@
                                     </select>
                                     <br/>
                                   </div>
-
                                 </div>
+
                                 <div class="modal-footer align-content-end">
                                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                                     Close
@@ -193,21 +193,21 @@
                                     <br/>
                                   </div>
 
-                                  <div class="form-group">
+                                  <div>
                                     <label for="deleteLastName" class="fw-bold">Last name</label>
                                     <input th:name="lastName" th:type="text" class="form-control"
                                            id="deleteLastName" th:value="${u.lastName}" disabled/>
                                     <br/>
                                   </div>
 
-                                  <div class="form-group">
+                                  <div>
                                     <label for="deleteYearOfBirth"><b>Year of Birth</b></label>
                                     <input th:name="age" th:type="number" class="form-control"
                                            id="deleteYearOfBirth" th:value="${u.yearOfBirth}" disabled/>
                                     <br/>
                                   </div>
 
-                                  <div class="form-group">
+                                  <div>
                                     <label for="deleteUsername"><b>Username</b></label>
                                     <input th:name="email" th:type="text" class="form-control"
                                            id="deleteUsername" th:value="${u.username}" disabled/>
@@ -243,35 +243,35 @@
                         <br/>
                       </div>
 
-                      <div class="form-group">
+                      <div>
                         <label for="lastNameNew" class="fw-bold">Last name</label>
                         <input class="form-control" type="text" th:field="*{lastName}" id="lastNameNew"/>
                         <div style="color:red" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
                         <br/>
                       </div>
 
-                      <div class="form-group">
+                      <div>
                         <label for="yearOfBirthNew" class="fw-bold">Year of birth</label>
                         <input class="form-control" type="number" th:field="*{yearOfBirth}" id="yearOfBirthNew"/>
                         <div style="color:red" th:if="${#fields.hasErrors('yearOfBirth')}" th:errors="*{yearOfBirth}"></div>
                         <br/>
                       </div>
 
-                      <div class="form-group">
+                      <div>
                         <label for="usernameNew" class="fw-bold">Username</label>
                         <input class="form-control" type="text" th:field="*{username}" id="usernameNew"/>
                         <div style="color:red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
                         <br/>
                       </div>
 
-                      <div class="form-group">
+                      <div>
                         <label for="passwordNew" class="fw-bold">Password</label>
                         <input class="form-control" type="password" th:field="*{password}" id="passwordNew"/>
                         <div style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
                         <br/>
                       </div>
 
-                      <div class="form-group">
+                      <div>
                         <label for="rolesNew" class="fw-bold">Roles</label>
                         <select class="form-control mw-100" id="rolesNew" style="height: 65px"
                                 th:field="*{roles}" multiple="multiple">

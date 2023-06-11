@@ -69,8 +69,11 @@ public class AdminController {
     }
 
     @DeleteMapping("/{id}")
-    public String deleteUser(@PathVariable Long id) {
+    public String deleteUser(@PathVariable Long id, @ModelAttribute User authUser) {
         userService.deleteUserById(id);
+        if (authUser.getId().equals(id)) {
+            return "redirect:/logout";
+        }
         return "redirect:/admin";
     }
 }
