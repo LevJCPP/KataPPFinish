@@ -15,9 +15,9 @@
             <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
         </div>
 
-        <div th:if="${param.error}" style="color:red">
+        <span th:if="${param.error}" style="color:red">
             Wrong username or password
-        </div>
+        </span>
         <button class="btn btn-lg btn-primary btn-block text-center w-100" type="submit">Sign in</button>
     </form>
     <a class="btn btn-lg btn-success btn-block text-center w-100" th:href="@{/auth/register}">Sign up</a>

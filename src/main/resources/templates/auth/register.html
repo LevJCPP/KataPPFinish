@@ -15,35 +15,35 @@
             <div>
                 <label for="firstNameNew" class="fw-bold">First name</label>
                 <input class="form-control" type="text" th:field="*{firstName}" id="firstNameNew"/>
-                <div style="color:red" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>
+                <span style="color:red" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></span>
                 <br/>
             </div>
 
             <div>
                 <label for="lastNameNew" class="fw-bold">Last name</label>
                 <input class="form-control" type="text" th:field="*{lastName}" id="lastNameNew"/>
-                <div style="color:red" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
+                <span style="color:red" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></span>
                 <br/>
             </div>
 
             <div>
                 <label for="yearOfBirthNew" class="fw-bold">Year of birth</label>
                 <input class="form-control" type="number" th:field="*{yearOfBirth}" id="yearOfBirthNew"/>
-                <div style="color:red" th:if="${#fields.hasErrors('yearOfBirth')}" th:errors="*{yearOfBirth}"></div>
+                <span style="color:red" th:if="${#fields.hasErrors('yearOfBirth')}" th:errors="*{yearOfBirth}"></span>
                 <br/>
             </div>
 
             <div>
                 <label for="usernameNew" class="fw-bold">Username</label>
                 <input class="form-control" type="text" th:field="*{username}" id="usernameNew"/>
-                <div style="color:red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
+                <span style="color:red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
                 <br/>
             </div>
 
             <div>
                 <label for="passwordNew" class="fw-bold">Password</label>
                 <input class="form-control" type="password" th:field="*{password}" id="passwordNew"/>
-                <div style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+                <span style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
                 <br/>
             </div>
         </div>

@@ -43,7 +43,7 @@ public class AdminController {
 
     @PatchMapping("/{id}")
     public String editUser(@ModelAttribute User editUser, BindingResult bindingResult) {
-        userValidator.validateUpdate(editUser, bindingResult);
+        userValidator.validateUpdate(editUser, bindingResult, true);
 
         if (bindingResult.hasErrors()) {
             return "admin";
@@ -63,7 +63,7 @@ public class AdminController {
             return "admin";
         }
 
-        userService.update(user);
+        userService.save(user);
         model.addAttribute("users", userService.findAll());
         return "redirect:/admin";
     }
