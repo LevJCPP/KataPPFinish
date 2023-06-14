@@ -42,14 +42,14 @@ public class AdminController {
 
     @PatchMapping("/users/edit")
     public String submitEditUser(Model model, @ModelAttribute User user, BindingResult bindingResult) {
-        userValidator.validateUpdate(user, bindingResult);
+        userValidator.validateUpdate(user, bindingResult, true);
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("roles", roleService.findAll());
             return "user-edit";
         }
 
-        userService.update(user);
+        userService.save(user);
         return "redirect:/admin/users/all";
     }
 

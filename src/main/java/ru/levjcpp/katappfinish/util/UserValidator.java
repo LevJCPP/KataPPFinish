@@ -5,16 +5,16 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import ru.levjcpp.katappfinish.model.User;
-import ru.levjcpp.katappfinish.service.UserServiceImpl;
+import ru.levjcpp.katappfinish.service.UserService;
 
 @Component
 public class UserValidator implements Validator {
 
-    private final UserServiceImpl userDetailsService;
+    private final UserService userService;
 
     @Autowired
-    public UserValidator(UserServiceImpl userDetailsService) {
-        this.userDetailsService = userDetailsService;
+    public UserValidator(UserService userService) {
+        this.userService = userService;
     }
 
     @Override
@@ -26,7 +26,7 @@ public class UserValidator implements Validator {
     public void validate(Object target, Errors errors) {
         User user = (User) target;
 
-        if (userDetailsService.findUserByUsername(user.getUsername()).isPresent()) {
+        if (userService.findUserByUsername(user.getUsername()).isPresent()) {
             errors.rejectValue("username", "", "User with such username already exists");
             return;
         }
@@ -35,10 +35,16 @@ public class UserValidator implements Validator {
             errors.rejectValue("password", "", "Required field");
         }
 
-        validateUpdate(user, errors);
+        validateUpdate(user, errors, false);
     }
 
-    public void validateUpdate(User user, Errors errors) {
+    public void validateUpdate(User user, Errors errors, boolean validateUsername) {
+        if (validateUsername && !userService.findUserByUsername(user.getUsername()).orElse(user)
+                .getId().equals(user.getId())) {
+            errors.rejectValue("username", "", "User with such username already exists");
+            return;
+        }
+
         if (user.getUsername().isEmpty()) {
             errors.rejectValue("username", "", "Required field");
         }

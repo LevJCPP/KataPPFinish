@@ -24,34 +24,37 @@ public class DataInit {
 
     @PostConstruct
     private void dataInit() {
-        try {
-            Role adminRole = new Role();
+        Role adminRole = new Role();
+        if (roleService.findByName("Admin") == null) {
             adminRole.setName("Admin");
             roleService.save(adminRole);
 
-            Role userRole = new Role();
+            if (userService.findUserByUsername("admin").isEmpty()) {
+                User admin = new User();
+                admin.setFirstName("admin first");
+                admin.setLastName("admin last");
+                admin.setYearOfBirth(1950);
+                admin.setUsername("admin");
+                admin.setPassword("admin");
+                admin.setRoles(List.of(adminRole));
+                userService.save(admin);
+            }
+        }
+        Role userRole = new Role();
+        if (roleService.findByName("User") == null) {
             userRole.setName("User");
             roleService.save(userRole);
 
-            User admin = new User();
-            admin.setFirstName("admin first");
-            admin.setLastName("admin last");
-            admin.setYearOfBirth(1950);
-            admin.setUsername("admin");
-            admin.setPassword("admin");
-            admin.setRoles(List.of(adminRole));
-            userService.save(admin);
-
-            User user = new User();
-            admin.setFirstName("user first");
-            admin.setLastName("user last");
-            admin.setYearOfBirth(2000);
-            admin.setUsername("user");
-            admin.setPassword("user");
-            user.setRoles(List.of(userRole));
-            userService.save(user);
-        } catch (IllegalArgumentException e) {
-            // Get here if table was already init-filled before
+            if (userService.findUserByUsername("user").isEmpty()) {
+                User user = new User();
+                user.setFirstName("user first");
+                user.setLastName("user last");
+                user.setYearOfBirth(2000);
+                user.setUsername("user");
+                user.setPassword("user");
+                user.setRoles(List.of(userRole));
+                userService.save(user);
+            }
         }
     }
 }

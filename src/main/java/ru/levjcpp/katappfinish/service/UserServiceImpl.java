@@ -26,9 +26,12 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void save(User user) {
-        userRepository.findById(user.getId())
-                .orElseThrow(() -> new IllegalArgumentException("User with such name already exists"));
-        update(user);
+        if (user.getPassword().isEmpty()) {
+            user.setPassword(findById(user.getId()).getPassword());
+        } else {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
+        userRepository.save(user);
     }
 
     @Override
@@ -54,17 +57,6 @@ public class UserServiceImpl implements UserService {
     public User loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-    }
-
-    @Override
-    @Transactional
-    public void update(User user) {
-        if (user.getPassword().isEmpty()) {
-            user.setPassword(findById(user.getId()).getPassword());
-        } else {
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-        }
-        userRepository.save(user);
     }
 
     @Override
