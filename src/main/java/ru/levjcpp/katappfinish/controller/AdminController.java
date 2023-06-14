@@ -49,7 +49,7 @@ public class AdminController {
             return "user-edit";
         }
 
-        userService.save(user);
+        userService.update(user);
         return "redirect:/admin/users/all";
     }
 
