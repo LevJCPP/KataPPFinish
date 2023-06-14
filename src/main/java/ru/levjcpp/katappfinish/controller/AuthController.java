@@ -1,7 +1,6 @@
 package ru.levjcpp.katappfinish.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -51,14 +50,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public String registerUser(Model model, @ModelAttribute User user, BindingResult bindingResult) {
-        // Временный костыль, чтобы вручную в бд не добавлять и не менять роли
-        String roleName;
-        if (user.getUsername().equals("admin")) {
-            roleName = "Admin";
-        } else {
-            roleName = "User";
-        }
-        user.setRoles(List.of(roleService.getByName(roleName)));
+        user.setRoles(List.of(roleService.findByName("User")));
 
         userValidator.validate(user, bindingResult);
 

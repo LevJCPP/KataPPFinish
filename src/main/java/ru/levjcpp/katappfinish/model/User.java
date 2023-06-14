@@ -2,11 +2,10 @@ package ru.levjcpp.katappfinish.model;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Entity
@@ -38,7 +37,7 @@ public class User implements UserDetails {
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Collection<Role> roles;
+    private List<Role> roles;
 
     public User() {
     }
@@ -95,16 +94,16 @@ public class User implements UserDetails {
         return roles.stream().map(Role::toString).collect(Collectors.joining(", "));
     }
 
-    public Collection<Role> getRoles() {
+    public List<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(Collection<Role> roles) {
+    public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
+    public List<Role> getAuthorities() {
         return roles;
     }
 

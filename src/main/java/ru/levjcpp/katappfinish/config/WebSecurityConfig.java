@@ -6,22 +6,22 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import ru.levjcpp.katappfinish.service.UserService;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final UserService userService;
+    private final UserDetailsService userDetailsService;
     private final SuccessUserHandler successUserHandler;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public WebSecurityConfig(UserService userService,
+    public WebSecurityConfig(UserDetailsService userDetailsService,
                              SuccessUserHandler successUserHandler,
                              PasswordEncoder passwordEncoder) {
-        this.userService = userService;
+        this.userDetailsService = userDetailsService;
         this.successUserHandler = successUserHandler;
         this.passwordEncoder = passwordEncoder;
     }
@@ -32,7 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/", "/user/**").hasAnyRole("USER", "ADMIN")
                 .antMatchers("/", "/admin/**").hasRole("ADMIN")
-                .antMatchers("/auth/login", "/auth/register", "/error").permitAll()
+                .antMatchers("/auth/login", "/error").permitAll()
                 .and()
                 .formLogin().loginPage("/auth/login")
                 .loginProcessingUrl("/process_login")
@@ -42,6 +42,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService).passwordEncoder(passwordEncoder);
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
     }
 }

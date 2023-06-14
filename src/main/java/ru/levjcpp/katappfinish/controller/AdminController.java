@@ -63,7 +63,7 @@ public class AdminController {
             return "admin";
         }
 
-        userService.save(user);
+        userService.update(user);
         model.addAttribute("users", userService.findAll());
         return "redirect:/admin";
     }

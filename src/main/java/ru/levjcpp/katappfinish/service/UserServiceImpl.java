@@ -4,16 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 import ru.levjcpp.katappfinish.model.User;
 import ru.levjcpp.katappfinish.repository.UserRepository;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 @Service
-@EnableTransactionManagement
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
@@ -28,18 +26,9 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void save(User user) {
-        if (user.getPassword().isEmpty()) {
-            user.setPassword(findById(user.getId()).getPassword());
-        } else {
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-        }
-        userRepository.save(user);
-    }
-
-    @Override
-    @Transactional
-    public void deleteUserById(Long id) {
-        userRepository.deleteById(id);
+        userRepository.findById(user.getId())
+                .orElseThrow(() -> new IllegalArgumentException("User with such name already exists"));
+        update(user);
     }
 
     @Override
@@ -50,7 +39,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(readOnly = true)
-    public Collection<User> findAll() {
+    public List<User> findAll() {
         return userRepository.findAll();
     }
 
@@ -63,12 +52,24 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(readOnly = true)
     public User loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username).orElse(null);
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    }
 
-        if (user == null) {
-            throw new UsernameNotFoundException("User not found");
+    @Override
+    @Transactional
+    public void update(User user) {
+        if (user.getPassword().isEmpty()) {
+            user.setPassword(findById(user.getId()).getPassword());
+        } else {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
         }
+        userRepository.save(user);
+    }
 
-        return user;
+    @Override
+    @Transactional
+    public void deleteUserById(Long id) {
+        userRepository.deleteById(id);
     }
 }

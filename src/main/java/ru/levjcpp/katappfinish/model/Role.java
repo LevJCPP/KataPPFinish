@@ -3,7 +3,7 @@ package ru.levjcpp.katappfinish.model;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
-import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "roles")
@@ -19,7 +19,7 @@ public class Role implements GrantedAuthority {
 
     @Transient
     @ManyToMany(mappedBy = "roles")
-    private Collection<User> users;
+    private List<User> users;
 
     public Role() {
     }
@@ -40,11 +40,11 @@ public class Role implements GrantedAuthority {
         this.name = name;
     }
 
-    public Collection<User> getUsers() {
+    public List<User> getUsers() {
         return users;
     }
 
-    public void setUsers(Collection<User> users) {
+    public void setUsers(List<User> users) {
         this.users = users;
     }
 

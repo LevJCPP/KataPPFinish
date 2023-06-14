@@ -2,10 +2,13 @@ package ru.levjcpp.katappfinish.service;
 
 import ru.levjcpp.katappfinish.model.Role;
 
-import java.util.Collection;
+import java.util.List;
 
 public interface RoleService {
 
-    Role getByName(String name);
-    Collection<Role> findAll();
+    void save(Role role);
+
+    Role findByName(String name);
+
+    List<Role> findAll();
 }

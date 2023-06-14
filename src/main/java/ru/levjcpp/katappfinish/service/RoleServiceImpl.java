@@ -1,12 +1,13 @@
 package ru.levjcpp.katappfinish.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.levjcpp.katappfinish.model.Role;
 import ru.levjcpp.katappfinish.repository.RoleRepository;
 
-import java.util.Collection;
+import java.util.List;
 
 @Service
 public class RoleServiceImpl implements RoleService {
@@ -20,21 +21,22 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     @Transactional
-    public Role getByName(String name) {
-        Role role = roleRepository.findByName(name).orElse(null);
-
-        if (role == null) {
-            role = new Role();
-            role.setName(name);
-            roleRepository.save(role);
+    public void save(Role role) {
+        if (roleRepository.exists(Example.of(role))) {
+            throw new IllegalArgumentException("Role already exists");
         }
+        roleRepository.save(role);
+    }
 
-        return role;
+    @Override
+    public Role findByName(String name) {
+        return roleRepository.findByName(name)
+                .orElseThrow(() -> new IllegalArgumentException("Role not found"));
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Collection<Role> findAll() {
+    public List<Role> findAll() {
         return roleRepository.findAll();
     }
 }
